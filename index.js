@@ -1,9 +1,15 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const openapiSpec = require('./openapi.json');
 const app = express();
 const port = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get('/openapi.json', (req, res) => {
+    res.json(openapiSpec);
+});
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
 
 class Task {
     constructor(id, title, isDone){
@@ -14,7 +20,6 @@ class Task {
 }
 
 const tasks = [];
-tasks.push(new Task(1, "Prueba", false));
 
 app.get('/', (req, res) =>{
     res.json({
@@ -108,7 +113,7 @@ app.delete('/tasks/:id', (req, res) => {
     }
 
     tasks.splice(task, 1);
-    return res.status(204);
+    return res.sendStatus(204);
 });
 
 app.listen(port, () => console.log(`Running http://localhost:${port}`))
