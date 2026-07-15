@@ -99,7 +99,7 @@ app.put('/tasks/:id', (req, res) => {
     task.title = title;
     task.isDone = isDone;
 
-    return res.status(200).json(task);
+    return res.status(201).json(task);
 });
 
 app.delete('/tasks/:id', (req, res) => {
@@ -114,6 +114,22 @@ app.delete('/tasks/:id', (req, res) => {
 
     tasks.splice(task, 1);
     return res.sendStatus(204);
+});
+
+app.get('/search', (req, res) =>{
+    const {query} = req.query
+    
+    if(typeof(query) !== 'string' || query.trim() === ""){
+        return res.status(400).json({
+            "error":"Query requiered"
+        });
+    }
+
+    const results = tasks.filter(task =>
+        task.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return res.status(200).json(results);
 });
 
 app.listen(port, () => console.log(`Running http://localhost:${port}`))

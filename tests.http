@@ -25,3 +25,6 @@ Content-Type: application/json
 
 ### Borrar tarea 1
 DELETE http://localhost:8080/tasks/2
+
+### Query
+GET http://localhost:8080/search?query=let

@@ -13,10 +13,10 @@
   "paths": {
     "/": {
       "get": {
-        "summary": "General information of the API",
+        "summary": "Get API information",
         "responses": {
           "200": {
-            "description": "Principal docs of the API",
+            "description": "Main API metadata",
             "content": {
               "application/json": {
                 "schema": {
@@ -30,10 +30,10 @@
     },
     "/health": {
       "get": {
-        "summary": "Health of the service",
+        "summary": "Get service health",
         "responses": {
           "200": {
-            "description": "Service running",
+            "description": "Service is running",
             "content": {
               "application/json": {
                 "schema": {
@@ -50,7 +50,7 @@
         "summary": "List tasks",
         "responses": {
           "200": {
-            "description": "List of the tasks",
+            "description": "Task list",
             "content": {
               "application/json": {
                 "schema": {
@@ -102,7 +102,7 @@
     },
     "/tasks/{id}": {
       "get": {
-        "summary": "Get a task by ID",
+        "summary": "Get task by ID",
         "parameters": [
           {
             "$ref": "#/components/parameters/TaskId"
@@ -193,11 +193,80 @@
             "description": "Task deleted"
           },
           "404": {
-            "description": "Tarea not found",
+            "description": "Task not found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Search tasks by title",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SearchQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "Get OpenAPI specification",
+        "responses": {
+          "200": {
+            "description": "OpenAPI document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docs": {
+      "get": {
+        "summary": "Get Swagger UI documentation",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -212,10 +281,20 @@
         "name": "id",
         "in": "path",
         "required": true,
-        "description": "Numeric ID of the task",
+        "description": "Task numeric ID",
         "schema": {
           "type": "integer",
           "example": 1
+        }
+      },
+      "SearchQuery": {
+        "name": "query",
+        "in": "query",
+        "required": true,
+        "description": "Text to match against task title",
+        "schema": {
+          "type": "string",
+          "example": "node"
         }
       }
     },
@@ -229,7 +308,7 @@
           },
           "title": {
             "type": "string",
-            "example": "Learn Everything"
+            "example": "Learn Node.js"
           },
           "isDone": {
             "type": "boolean",
@@ -247,7 +326,7 @@
         "properties": {
           "title": {
             "type": "string",
-            "example": "Learn Everything"
+            "example": "Learn Node.js"
           },
           "isDone": {
             "type": "boolean",
