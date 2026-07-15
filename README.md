@@ -56,3 +56,4 @@ Keep-Alive: timeout=5
 ```
 
 # Swagger UI Screenshot
+<img src="assets/Screenshot from 2026-07-15 02-53-26.png" width="800">
