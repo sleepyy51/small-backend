@@ -99,7 +99,7 @@ app.put('/tasks/:id', (req, res) => {
     task.title = title;
     task.isDone = isDone;
 
-    return res.status(201).json(task);
+    return res.status(200).json(task);
 });
 
 app.delete('/tasks/:id', (req, res) => {
